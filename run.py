@@ -8,8 +8,8 @@ import time
 # ============================================
 # SUPABASE CONFIGURATION
 # ============================================
-SUPABASE_URL = "https://bapactgxyyjwtnmopaeq.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJhcGFjdGd4eXlqd3RubW9wYWVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUyOTA3NjEsImV4cCI6MjA4MDg2Njc2MX0.KyhZbUN9xtyYI4Bn853ZOB8qeonugjOQuOUDulzfxzM"
+SUPABASE_URL = "https://qurakjquxsyunqmautak.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1cmFranF1eHN5dW5xbWF1dGFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzNDYzOTEsImV4cCI6MjA4MDkyMjM5MX0.aRn6yuQiqvVT5JllPqP640JPVrQ15rWUYe1woa2rAyg"
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
@@ -249,7 +249,7 @@ if "is_admin" not in st.session_state:
 if "first_load" not in st.session_state:
     st.session_state.first_load = True
 if "event_cart" not in st.session_state:
-    st.session_state.event_cart = []  # list of {category, size, qty}
+    st.session_state.event_cart = []  # list of {category, size, quantity}
 
 # ============================================
 # DB HELPERS
@@ -348,7 +348,6 @@ def update_stock(org, category, size, qty_change, user_name, action_type, reason
 def record_distribution_single(
     org, volunteer_name, category, size, qty, cust_name, cust_phone, cust_email
 ):
-    """Record a single line of distribution (used by cart loop)."""
     try:
         current = get_current_stock(org, category, size)
         if current < qty:
@@ -405,7 +404,7 @@ def login_page():
                     st.session_state.first_load = True
                     st.success("✅ Login successful!")
                     time.sleep(1)
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     st.error("❌ Invalid credentials!")
             else:
@@ -447,7 +446,7 @@ def stock_update_ui(org):
                         if ok:
                             st.success(f"✅ Added {qty_in} shirts - {r_in}")
                             time.sleep(1)
-                            st.experimental_rerun()
+                            st.rerun()
                         else:
                             st.error(msg)
                     else:
@@ -475,7 +474,7 @@ def stock_update_ui(org):
                         if ok:
                             st.success(f"✅ Removed {qty_out} shirts - {r_out}")
                             time.sleep(1)
-                            st.experimental_rerun()
+                            st.rerun()
                         else:
                             st.error(msg)
                     else:
@@ -511,7 +510,7 @@ def stock_update_ui(org):
                         if ok:
                             st.success(f"✅ Added {qty_in} shirts - {r_in}")
                             time.sleep(1)
-                            st.experimental_rerun()
+                            st.rerun()
                         else:
                             st.error(msg)
                     else:
@@ -539,7 +538,7 @@ def stock_update_ui(org):
                         if ok:
                             st.success(f"✅ Removed {qty_out} shirts - {r_out}")
                             time.sleep(1)
-                            st.experimental_rerun()
+                            st.rerun()
                         else:
                             st.error(msg)
                     else:
@@ -568,7 +567,7 @@ def event_place_page():
     with c2:
         cust_email = st.text_input("Email Address (optional)", placeholder="Enter email")
     with c3:
-        st.write("")  # spacing
+        st.write("")
 
     st.write("")
 
@@ -658,7 +657,7 @@ def event_place_page():
                     )
                     st.session_state.event_cart = []
                     time.sleep(1)
-                    st.experimental_rerun()
+                    st.rerun()
 
     st.markdown("---")
     st.subheader("📦 Event Place Stock Management")
@@ -687,7 +686,7 @@ def event_place_page():
                         if ok:
                             st.success(f"✅ Added {qty_in} shirts - {r_in}")
                             time.sleep(1)
-                            st.experimental_rerun()
+                            st.rerun()
                         else:
                             st.error(msg)
                     else:
@@ -715,7 +714,7 @@ def event_place_page():
                         if ok:
                             st.success(f"✅ Removed {qty_out} shirts - {r_out}")
                             time.sleep(1)
-                            st.experimental_rerun()
+                            st.rerun()
                         else:
                             st.error(msg)
                     else:
@@ -751,7 +750,7 @@ def event_place_page():
                         if ok:
                             st.success(f"✅ Added {qty_in} shirts - {r_in}")
                             time.sleep(1)
-                            st.experimental_rerun()
+                            st.rerun()
                         else:
                             st.error(msg)
                     else:
@@ -779,7 +778,7 @@ def event_place_page():
                         if ok:
                             st.success(f"✅ Removed {qty_out} shirts - {r_out}")
                             time.sleep(1)
-                            st.experimental_rerun()
+                            st.rerun()
                         else:
                             st.error(msg)
                     else:
@@ -795,7 +794,7 @@ def event_place_page():
         st.info("No stock data available")
 
 # ============================================
-# ADMIN PANEL (unchanged except it uses helpers above)
+# ADMIN PANEL
 # ============================================
 def admin_panel():
     st.title("⚙️ Admin Panel")
@@ -861,7 +860,7 @@ def admin_panel():
                     ).execute()
                     st.success(f"✅ User '{new_uid}' created successfully!")
                     time.sleep(1)
-                    st.experimental_rerun()
+                    st.rerun()
                 except Exception as e:
                     st.error(f"❌ Error creating user: {e}")
             else:
@@ -1013,7 +1012,7 @@ def main():
             if st.button("Logout", use_container_width=True):
                 for k in list(st.session_state.keys()):
                     del st.session_state[k]
-                st.experimental_rerun()
+                st.rerun()
 
         if st.session_state.is_admin:
             admin_panel()
@@ -1024,8 +1023,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
